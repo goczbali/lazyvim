@@ -1,8 +1,18 @@
-function in_mathzone()
+local ls = require("luasnip")
+local s = ls.snippet
+local t = ls.text_node
+local i = ls.insert_node
+local f = ls.function_node
+local fmta = require("luasnip.extras.fmt").fmta
+local rep = require("luasnip.extras").rep
+local line_begin = require("luasnip.extras.expand_conditions").line_begin
+
+local function in_mathzone()
   return vim.fn["vimtex#syntax#in_mathzone"]() == 1
 end
 
-function in_text()
+local function in_text()
+  ---@diagnostic disable-next-line: undefined-global
   return not tex.in_mathzone()
 end
 
@@ -378,10 +388,15 @@ return {
   }, { condition = in_mathzone }),
   s({ trig = ";%(", wordTrig = false, regTrig = true, snippetType = "autosnippet" }, {
     t("\\left("),
-  }, { condition = in_mathzone }),
-  s({ trig = ";%)", wordTrig = false, regTrig = true, snippetType = "autosnippet" }, {
+    i(1),
     t("\\right)"),
   }, { condition = in_mathzone }),
+  -- s({ trig = ";%(", wordTrig = false, regTrig = true, snippetType = "autosnippet" }, {
+  --   t("\\left("),
+  -- }, { condition = in_mathzone }),
+  -- s({ trig = ";%)", wordTrig = false, regTrig = true, snippetType = "autosnippet" }, {
+  --   t("\\right)"),
+  -- }, { condition = in_mathzone }),
   s({ trig = ";{", wordTrig = false, regTrig = true, snippetType = "autosnippet" }, {
     t("\\left\\{"),
   }, { condition = in_mathzone }),
